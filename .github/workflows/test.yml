@@ -32,7 +32,7 @@ jobs:
       - name: Set something to 'maxi'
         if: >
           github.event_name == 'issue_comment' &&
-            !contains(github.event.comment.body, '@something do whatever') &&
+            contains(github.event.comment.body, '@something do whatever') &&
             !contains(github.event.comment.body, '@something do whatever small')
         shell: bash
         run: echo "SOMETHING=maxi" >> $GITHUB_ENV
