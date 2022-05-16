@@ -26,7 +26,7 @@ jobs:
             !contains(github.event.comment.body, '@something do default') &&
             !contains(github.event.comment.body, '@something do whatever small')
         shell: bash
-        run: echo "SONETHING=maxi" >> $GITHUB_ENV
+        run: echo "SOMETHING=maxi" >> $GITHUB_ENV
 
       - name: Set something to 'mini'
         if: >
