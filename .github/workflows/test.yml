@@ -1,0 +1,41 @@
+name: Test
+on:
+  issue_comment:
+    types: [ created ]
+
+env:
+  LANG: C.UTF-8
+
+jobs:
+  test:
+    name: Test
+    if: >
+      (github.event_name == 'workflow_dispatch') ||
+      (
+        github.event.issue.pull_request &&
+        (
+          contains(github.event.comment.body, '@something do default') ||
+          contains(github.event.comment.body, '@something do whatever')
+        )
+      )
+    steps:
+      - name: Set something to 'maxi'
+        if: >
+          github.event_name == 'issue_comment' &&
+            !contains(github.event.comment.body, '@something do default') &&
+            !contains(github.event.comment.body, '@something do whatever small')
+        shell: bash
+        run: echo "SONETHING=maxi" >> $GITHUB_ENV
+
+      - name: Set something to 'mini'
+        if: >
+          github.event_name == 'issue_comment' &&
+          (
+            contains(github.event.comment.body, '@something do default') ||
+            contains(github.event.comment.body, '@something do whatever small')
+          )
+        shell: bash
+        run: echo "SOMETHING=mini" >> $GITHUB_ENV
+
+      - name: 'Print result'
+        run: echo $SOMETHING
