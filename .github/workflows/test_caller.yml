@@ -1,5 +1,14 @@
 on:
   workflow_dispatch:
+    inputs:
+      sha:
+        description: Git reference commit.
+        type: string
+        required: true
+      push:
+        description: "Push image to docker repo?"
+        type: boolean
+        required: true
 
 jobs:
   call_other:
