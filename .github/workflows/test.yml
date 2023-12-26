@@ -1,7 +1,17 @@
 name: Test
 on:
-  issue_comment:
-    types: [ created ]
+  push:
+    branches: [main]
+  workflow_call:
+    inputs:
+      sha:
+        description: Git reference commit.
+        type: string
+        required: true
+      push:
+        description: "Push image to docker repo?"
+        type: boolean
+        required: true
 
 env:
   LANG: C.UTF-8
@@ -10,31 +20,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     name: Test
-    if: >
-      (github.event_name == 'workflow_dispatch') ||
-      (
-        github.event.issue.pull_request &&
-        (
-          contains(github.event.comment.body, '@something do default') ||
-          contains(github.event.comment.body, '@something do whatever')
-        )
-      )
     steps:
       - name: Set something to 'mini'
-        if: >
-          github.event_name == 'issue_comment' &&
-          (
-            contains(github.event.comment.body, '@something do default') ||
-            contains(github.event.comment.body, '@something do whatever small')
-          )
         shell: bash
-        run: echo "SOMETHING=mini" >> $GITHUB_ENV
-      - name: Set something to 'maxi'
-        if: >
-          github.event_name == 'issue_comment' &&
-            contains(github.event.comment.body, '@something do whatever') &&
-            !contains(github.event.comment.body, '@something do whatever small')
-        shell: bash
-        run: echo "SOMETHING=maxi" >> $GITHUB_ENV
+        run: |
+          echo "CURRENT_GIT_COMMIT=${{ github.event.pull_request.base.ref == 'releases/latest' && github.event.pull_request.head.sha || github.event.inputs.sha || github.sha}}" >> $GITHUB_ENV
       - name: 'Print result'
         run: echo $SOMETHING

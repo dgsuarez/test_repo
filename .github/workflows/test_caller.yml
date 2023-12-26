@@ -1,0 +1,11 @@
+on:
+  workflow_dispatch:
+
+jobs:
+  call_other:
+    name: Call
+    uses: ./.github/workflows/test.yml
+    with:
+      sha: TEST
+      push: false
+
