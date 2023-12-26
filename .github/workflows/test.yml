@@ -26,4 +26,4 @@ jobs:
         run: |
           echo "CURRENT_GIT_COMMIT=${{ github.event.pull_request.base.ref == 'releases/latest' && github.event.pull_request.head.sha || github.event.inputs.sha || github.sha}}" >> $GITHUB_ENV
       - name: 'Print result'
-        run: echo $SOMETHING
+        run: echo $CURRENT_GIT_COMMIT
