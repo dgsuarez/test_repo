@@ -11,10 +11,17 @@ on:
         required: true
 
 jobs:
-  call_other:
+  call_test:
     name: Call
     uses: ./.github/workflows/test.yml
+    needs: [call-other]
     with:
       sha: TEST
       push: false
 
+  call-other:
+    name: Call
+    uses: ./.github/workflows/other_test.yml
+    with:
+      sha: TEST
+      push: false
