@@ -1,7 +1,7 @@
 name: Test
 on:
   pull_request:
-    types: [opened, synchronize, edit]
+    types: [opened, synchronize, edited]
 env:
   LANG: C.UTF-8
 
