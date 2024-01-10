@@ -1,0 +1,19 @@
+name: Test
+on:
+  pull_request:
+    - edited
+    - synchronize
+env:
+  LANG: C.UTF-8
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test
+    steps:
+      - name: Set something to 'mini'
+        shell: bash
+        run: |
+          echo "CURRENT_GIT_COMMIT=${{ github.event.pull_request.base.ref == 'releases/latest' && github.event.pull_request.head.sha || github.event.inputs.sha || github.sha}}" >> $GITHUB_ENV
+      - name: 'Print result'
+        run: echo $CURRENT_GIT_COMMIT
