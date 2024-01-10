@@ -1,4 +1,4 @@
-on:
+on: #TEST
   workflow_dispatch:
     inputs:
       sha:
